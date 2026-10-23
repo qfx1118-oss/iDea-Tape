@@ -12,8 +12,8 @@ Catch a passing thought on a pocket cassette, then keep its sound and starting l
 
 - Complete source: https://github.com/qfx1118-oss/iDea-Tape
 - Latest firmware and APK: https://github.com/qfx1118-oss/iDea-Tape/releases/latest
-- Android: [iDea-Tape-Android-0.4.0.apk](https://github.com/qfx1118-oss/iDea-Tape/releases/download/v0.4.0/iDea-Tape-Android-0.4.0.apk)
-- Full device firmware: [iDea-Tape-AI-Passport-0.4.0.bin](https://github.com/qfx1118-oss/iDea-Tape/releases/download/v0.4.0/iDea-Tape-AI-Passport-0.4.0.bin)
+- Android: [iDea-Tape-Android-0.5.0.apk](https://github.com/qfx1118-oss/iDea-Tape/releases/download/v0.5.0/iDea-Tape-Android-0.5.0.apk)
+- Full device firmware: [iDea-Tape-AI-Passport-0.5.0.bin](https://github.com/qfx1118-oss/iDea-Tape/releases/download/v0.5.0/iDea-Tape-AI-Passport-0.5.0.bin)
 - Contact: **qfx1118@qq.com**
 
 The complete firmware is a clean installation and **clears device settings and recordings**. Export important recordings first. See [firmware/data guidance](docs/idea-tape.md) for compatible segmented updates that preserve data. Install the same-signed APK over the old app: uninstalling removes its private recordings.
@@ -38,7 +38,7 @@ Online OpenStreetMap tiles require explicit enabling and an internet connection,
 
 ## A library that grows with your ideas
 
-Recording, Library and Map have separate entries. Favorite, search, rename and share recordings; filter today, the last 7/30 days or an inclusive custom date range. Automatic names include source and date/time. Old default titles are upgraded while custom titles stay intact. Unknown device start times are labeled “imported at” rather than inventing a recording date.
+Recording, Library and Map have separate entries. Favorite, search, rename, share or delete recordings; filter today, the last 7/30 days or an inclusive custom date range. Automatic names include source and date/time. Old default titles are upgraded while custom titles stay intact. Unknown device start times are labeled “imported at” rather than inventing a recording date.
 
 The phone can record independently with its microphone, using the same library as received device recordings. Sharing defaults to audio only; including position metadata is a separate choice. No cloud account or recording upload to a map service is required.
 
@@ -61,3 +61,13 @@ Built on the public [FoloToy AI Passport](https://github.com/FoloToy/ai-passport
 Source is under the repository's [MIT License](LICENSE), with upstream attribution retained. Generated Chinese font subsets use [SIL OFL 1.1](assets/fonts/OFL-NotoSansCJK.txt). Map data and tile service follow OpenStreetMap's separate attribution, licensing and usage rules. No signing private key, personal recordings, map credentials or publishing authorization is included.
 
 Questions and contributions are welcome. Contact **qfx1118@qq.com**.
+
+## New in 0.5.0
+
+The Android library has date groups, clear filled favorite stars, a consistent icon family, swipe-to-reveal deletion and 8-second undo. A compact player stays available across pages. Playback, markers and filters update together after deletion. A minimal identity receipt prevents a deliberately deleted, previously saved file from reappearing through late device backfill; it contains no audio, title or location.
+
+With both 0.5.0 components installed, enable recording location, then **Place names and device display** on the phone’s recording page. After Bluetooth connection, the phone resolves a current road name using its Android system address service and sends it to the recorder. Resolution may use the network and depends on the phone provider; unavailable addresses are labeled honestly. It does not require a proprietary map key, record routes, and can save resolved street names with each recording’s position. Disable the switch to clear the display; disconnection or expired updates clears it automatically.
+
+The author confirmed all 0.4.0 tests passed. Version 0.5.0 has build, host and emulator checks; physical phone-to-recorder place display still needs acceptance testing.
+
+The launcher now uses an authored retro iDea TAPE wordmark. The recording-page cassette keeps a fixed case ratio of about 1.58:1, with uniform scaling so the reels stay circular on different phones.

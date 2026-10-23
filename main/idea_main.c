@@ -47,7 +47,7 @@ static void ui_tick(lv_timer_t *timer){
     if(xSemaphoreTake(view_lock,0)==pdTRUE){v=shared;xSemaphoreGive(view_lock);tape_ui_render(&v,clock_ms());}
 }
 static void publish(tape_view_t *v,const tape_store_t *s){
-    v->phone=tape_ble_connected();v->sync=tape_sync_view();
+    v->phone=tape_ble_connected();v->sync=tape_sync_view();v->place=tape_sync_place();
     v->model.count=s->count;
     if(v->model.selected>=s->count)v->model.selected=s->count?s->count-1:0;
     if(!v->model.recording && s->count){v->id=s->files[v->model.selected].id;v->duration=s->files[v->model.selected].blocks*TAPE_SAMPLES;}
@@ -76,7 +76,8 @@ static void worker(void *arg){
         unsigned old_count=store.count;
         tape_sync_tick(&store,tape_model_storage_busy(&v.model));
         tape_sync_view_t sync=tape_sync_view();
-        if(memcmp(&sync,&v.sync,sizeof(sync)))publish(&v,&store);
+        tape_place_view_t place=tape_sync_place();
+        if(memcmp(&sync,&v.sync,sizeof(sync))||memcmp(&place,&v.place,sizeof(place)))publish(&v,&store);
         unsigned pairing=tape_ble_passkey();bool phone=tape_ble_connected();
         if(pairing!=pairing_was || phone!=phone_was || old_count!=store.count){
             pairing_was=pairing;phone_was=phone;

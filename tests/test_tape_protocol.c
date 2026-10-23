@@ -17,5 +17,10 @@ int main(void){
  for(size_t split=0;split<=size;split++){tape_parser_t p={0};received=0;tape_parse(&p,frame,split,got,NULL);tape_parse(&p,frame+split,size-split,got,NULL);assert(received==1 && last.type==TP_META && !memcmp(last.data,packed,32));}
  tape_parser_t p={0};received=0;uint8_t junk[18]={0,'I','T',1,4,255,255};tape_parse(&p,junk,sizeof(junk),got,NULL);uint8_t broken[TAPE_WIRE_MAX];memcpy(broken,frame,size);broken[9]^=42;tape_parse(&p,broken,size,got,NULL);tape_parse(&p,frame,size,got,NULL);assert(received==1);
  uint8_t maximum[272];memset(maximum,0xa5,sizeof(maximum));size=tape_frame(TP_DATA,maximum,sizeof(maximum),frame);assert(size==TAPE_WIRE_MAX);p=(tape_parser_t){0};received=0;for(size_t i=0;i<size;i++)tape_parse(&p,frame+i,1,got,NULL);assert(received==1&&last.size==272);
+ tape_place_view_t place={0};uint8_t road[]={2,9,0xe4,0xba,0xba,0xe6,0xb0,0x91,0xe8,0xb7,0xaf};
+ assert(tape_place_unpack(&place,road,sizeof(road))&&place.state==2&&!strcmp(place.label,"人民路"));
+ road[1]=8;assert(!tape_place_unpack(&place,road,sizeof(road)));road[1]=9;road[2]=0xc0;assert(!tape_place_unpack(&place,road,sizeof(road)));
+ uint8_t disabled[]={0,0};assert(tape_place_unpack(&place,disabled,2)&&!place.label[0]);disabled[0]=2;assert(!tape_place_unpack(&place,disabled,2));
+ uint8_t invalid[]={2,3,0xed,0xa0,0x80};assert(!tape_place_unpack(&place,invalid,5));invalid[2]=0xe0;invalid[3]=0x80;invalid[4]=0x80;assert(!tape_place_unpack(&place,invalid,5));invalid[2]=10;assert(!tape_place_unpack(&place,invalid,5));
  puts("BLE framing, CRC recovery, replay-safe deletion guard: PASS");
 }

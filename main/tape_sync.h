@@ -8,3 +8,5 @@ void tape_sync_tick(tape_store_t *store,bool busy);
 void tape_sync_cancel_transfer(void);
 
 tape_sync_view_t tape_sync_view(void);
+
+tape_place_view_t tape_sync_place(void);

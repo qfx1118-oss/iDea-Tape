@@ -37,3 +37,7 @@ Earlier development versions received user confirmation for device recording/sav
 The original FoloToy MIT license is retained, with Noto CJK font subsets separately covered by SIL OFL. No personal recordings or development/publishing credentials belong in this repository.
 
 This derivative disables automatic upstream synchronization and automatic release publishing. GitHub releases are created from explicitly verified firmware/APK artifacts, without pushing upstream tags.
+
+## 0.5.0 place label
+
+The optional authenticated BLE PLACE packet (type 21) contains state/UTF-8 length followed by at most 96 bytes. Strict UTF-8, state and size checks reject malformed input. State 0 clears, 1 waits for a fix/lookup, 2 displays a supplied place and 3 reports unavailable. The worker clears the transient label after 25 seconds or disconnection, and publishes locked UI snapshots. The 12-pixel font includes the source font’s basic CJK glyphs through U+9FEF; Latin UI fonts remain unchanged. Recording storage layout is unchanged. User confirmed all 0.4.0 tests passed; 0.5.0 street display requires paired physical testing.

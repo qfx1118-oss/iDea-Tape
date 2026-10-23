@@ -7,7 +7,7 @@
 #define TAPE_LIVE 1
 #define TAPE_COMPLETE 2
 #define TAPE_START_EVENT 4
-enum { TP_META=1,TP_DATA=2,TP_END=3,TP_EMPTY=4,TP_DELETED=5,TP_ERROR=6,TP_LIST=16,TP_PULL=17,TP_COMMIT=18,TP_TIME=19,TP_PROGRESS=20 };
+enum { TP_META=1,TP_DATA=2,TP_END=3,TP_EMPTY=4,TP_DELETED=5,TP_ERROR=6,TP_LIST=16,TP_PULL=17,TP_COMMIT=18,TP_TIME=19,TP_PROGRESS=20,TP_PLACE=21 };
 typedef struct { uint32_t id;uint64_t token,epoch_ms;uint32_t blocks,crc;uint8_t flags; } tape_meta_t;
 typedef struct {uint8_t type;uint16_t size;uint8_t data[272];} tape_packet_t;
 typedef struct {uint8_t bytes[TAPE_WIRE_MAX*2];size_t used;} tape_parser_t;
@@ -26,3 +26,7 @@ bool tape_progress_matches(const tape_meta_t *m,const uint8_t *p,size_t n);
 
 enum { SYNC_NONE,SYNC_LIVE,SYNC_RECEIVING,SYNC_SAVING,SYNC_DONE,SYNC_PAUSED };
 typedef struct {unsigned state,id,received,total;} tape_sync_view_t;
+
+/* Optional phone-supplied current place; never persisted in firmware. */
+typedef struct {unsigned state;char label[97];} tape_place_view_t;
+bool tape_place_unpack(tape_place_view_t *out,const uint8_t *p,size_t n);

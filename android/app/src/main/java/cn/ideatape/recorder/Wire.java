@@ -4,7 +4,7 @@ import java.nio.*;
 import java.util.*;
 import java.util.zip.CRC32;
 public final class Wire {
- public static final int META=1,DATA=2,END=3,EMPTY=4,DELETED=5,ERROR=6,LIST=16,PULL=17,COMMIT=18,TIME=19,PROGRESS=20;
+ public static final int META=1,DATA=2,END=3,EMPTY=4,DELETED=5,ERROR=6,LIST=16,PULL=17,COMMIT=18,TIME=19,PROGRESS=20,PLACE=21;
  public static final String SERVICE="6e400001-b5a3-f393-e0a9-e50e24dcca9e",RX="6e400002-b5a3-f393-e0a9-e50e24dcca9e",TX="6e400003-b5a3-f393-e0a9-e50e24dcca9e";
  public static int i32(byte[] p,int n){return ByteBuffer.wrap(p,n,4).order(ByteOrder.LITTLE_ENDIAN).getInt();}
  public static long u32(byte[] p,int n){return i32(p,n)&0xffffffffL;}

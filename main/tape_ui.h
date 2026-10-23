@@ -8,6 +8,7 @@ typedef struct {
     int battery;
     bool phone;
     tape_sync_view_t sync;
+    tape_place_view_t place;
     char message[80], ssid[33], password[17];
     unsigned revision;
 } tape_view_t;

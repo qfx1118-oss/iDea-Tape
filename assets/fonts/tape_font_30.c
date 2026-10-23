@@ -1,7 +1,7 @@
 /*******************************************************************************
  * Size: 30 px
  * Bpp: 2
- * Opts: --font /Users/qifeixiang/Documents/ai passport/assets/fonts/source/NotoSansCJKsc-Regular.otf --symbols 0123456789: --size 30 --bpp 2 --format lvgl --no-compress --lv-font-name tape_font_30 --lv-include lvgl.h --output /Users/qifeixiang/.codex/worktrees/idea-tape/ai passport/assets/fonts/tape_font_30.c
+ * Opts: --font /Users/qifeixiang/Documents/ai passport/assets/fonts/source/NotoSansCJKsc-Regular.otf --symbols 0123456789: --size 30 --bpp 2 --format lvgl --no-compress --lv-font-name tape_font_30 --lv-include lvgl.h --output /Users/qifeixiang/.codex/worktrees/idea-tape-open-source/ai passport/assets/fonts/tape_font_30.c
  ******************************************************************************/
 
 #ifdef LV_LVGL_H_INCLUDE_SIMPLE
@@ -254,3 +254,4 @@ lv_font_t tape_font_30 = {
 
 
 #endif /*#if TAPE_FONT_30*/
+

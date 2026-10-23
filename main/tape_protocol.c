@@ -29,3 +29,18 @@ bool tape_progress_matches(const tape_meta_t *m,const uint8_t *p,size_t n){
  return n==21 && tape_get32(p)==m->id && tape_get64(p+4)==m->token &&
  tape_get32(p+12)<=tape_get32(p+16) && ((m->flags&TAPE_LIVE)?tape_get32(p+16)<=m->blocks:tape_get32(p+16)==m->blocks) && p[20]<=1;
 }
+
+bool tape_place_unpack(tape_place_view_t *out,const uint8_t *p,size_t n){
+ if(n<2||p[0]>3||p[1]>96||n!=(size_t)p[1]+2||((p[0]==2)!=(p[1]>0)))return false;
+ size_t i=2;while(i<n){uint32_t c=p[i++];unsigned more=0;uint32_t min=0;
+  if(c<0x20||c==0x7f)return false;
+  if(c<0x80)continue;
+  if(c>=0xc2&&c<=0xdf){more=1;min=0x80;c&=0x1f;}
+  else if(c>=0xe0&&c<=0xef){more=2;min=0x800;c&=0x0f;}
+  else if(c>=0xf0&&c<=0xf4){more=3;min=0x10000;c&=7;}else return false;
+  if(n-i<more)return false;
+  while(more--){if((p[i]&0xc0)!=0x80)return false;c=(c<<6)|(p[i++]&0x3f);}
+  if(c<min||c>0x10ffff||(c>=0xd800&&c<=0xdfff))return false;
+ }
+ *out=(tape_place_view_t){.state=p[0]};memcpy(out->label,p+2,p[1]);return true;
+}

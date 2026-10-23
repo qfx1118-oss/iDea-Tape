@@ -12,8 +12,8 @@
 
 - 完整项目：https://github.com/qfx1118-oss/iDea-Tape
 - 最新安装包与固件：https://github.com/qfx1118-oss/iDea-Tape/releases/latest
-- 安卓安装包：[iDea-Tape-Android-0.4.0.apk](https://github.com/qfx1118-oss/iDea-Tape/releases/download/v0.4.0/iDea-Tape-Android-0.4.0.apk)
-- 设备完整固件：[iDea-Tape-AI-Passport-0.4.0.bin](https://github.com/qfx1118-oss/iDea-Tape/releases/download/v0.4.0/iDea-Tape-AI-Passport-0.4.0.bin)
+- 安卓安装包：[iDea-Tape-Android-0.5.0.apk](https://github.com/qfx1118-oss/iDea-Tape/releases/download/v0.5.0/iDea-Tape-Android-0.5.0.apk)
+- 设备完整固件：[iDea-Tape-AI-Passport-0.5.0.bin](https://github.com/qfx1118-oss/iDea-Tape/releases/download/v0.5.0/iDea-Tape-AI-Passport-0.5.0.bin)
 - 联系邮箱：**qfx1118@qq.com**
 
 设备完整固件用于从零安装，**会清除原有设备设置和录音**，请先导出重要录音。已有兼容版本需要保留数据时，见[构建与数据说明](docs/idea-tape.zh_CN.md)。手机请同签名覆盖安装，不要先卸载；录音保存在 App 私有目录，卸载会删除。
@@ -64,3 +64,13 @@ OpenStreetMap 在线底图需要首次明确开启，不需要地图服务账号
 源码采用仓库 [MIT License](LICENSE)，保留上游版权声明。生成的中文字体子集采用 [SIL OFL 1.1](assets/fonts/OFL-NotoSansCJK.txt)；地图数据和图块另遵循 OpenStreetMap 的署名、许可与服务规则。签名私钥、个人录音、地图密钥及社区/GitHub 授权凭据不在仓库中。
 
 欢迎提出问题、提交改进或通过 **qfx1118@qq.com** 联系作者。
+
+## 0.5.0 新功能
+
+手机录音库按日期分组，使用统一图标和清晰的实心收藏星标。左滑录音后点垃圾桶删除，8 秒内可撤销；详情页和更多菜单也能删除。播放、地图标记和筛选结果会同步更新。极简文件识别凭据可防止已主动删除、此前已保存的录音被设备延迟补传重新导入，凭据不含音频、标题或位置。跨页面可使用底部迷你播放器。
+
+设备和手机均更新至 0.5.0 后，在手机录音页先开启“录音起点定位”，再开启“地点名称与设备显示”。蓝牙连接后，手机通过系统地址服务解析当前道路名，推送到录音笔屏幕。地址解析可能联网，取决于手机系统服务；失败时显示地址不可用，不需要地图 Key，不记录路线，录音库会按各录音保存的坐标解析并保存地点名，替换“有位置”，不会套用手机当前地点。关闭开关会清除设备地点；断开连接或更新过期后自动清除。
+
+作者已确认 0.4.0 全部测试通过。0.5.0 已进行构建、主机测试和模拟器检查，手机到设备的地点显示仍需实机验收。
+
+桌面图标更换为复古手写感 iDea TAPE 字标；录音页磁带外壳按约 1.58∶1 比例显示并保持等比缩放，转轴在不同手机上仍为圆形。

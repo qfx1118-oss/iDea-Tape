@@ -24,6 +24,7 @@ static void font_check(void){
         assert(lv_font_get_glyph_dsc(&tape_font_12,&d,cp,0) && !d.is_placeholder);
         assert(lv_font_get_glyph_dsc(&tape_font_16,&d,cp,0) && !d.is_placeholder);
     }
+    for(unsigned cp=0x4e00;cp<=0x9fef;cp++){lv_font_glyph_dsc_t d;assert(lv_font_get_glyph_dsc(&tape_font_12,&d,cp,0)&&!d.is_placeholder);}
     lv_point_t size;
     const char *hints[]={"按住上键录  下键开始/结束","OK 选择音频  长按OK 电脑导出","上下 选择  OK 播放/停止","长按上下 删除  长按OK 返回"};
     for(unsigned i=0;i<4;i++){lv_text_get_size(&size,hints[i],&tape_font_12,0,0,1000,LV_TEXT_FLAG_NONE);assert(size.x<=200);}
@@ -42,8 +43,8 @@ int main(int argc,char **argv){
         }
         return 0;
     }
-    const char *names[]={"standby","recording","library","playing","delete","export","empty","storage-error","transfer","transfer-done"};
-    for(unsigned i=0;i<10;i++){
+    const char *names[]={"standby","recording","library","playing","delete","export","empty","storage-error","transfer","transfer-done","street-name"};
+    for(unsigned i=0;i<11;i++){
         v.sync=(tape_sync_view_t){0};v.model.mode=TAPE_RECORD;v.model.recording=false;v.model.playing=false;v.model.count=8;v.message[0]=0;v.samples=16*16000;v.revision++;
         if(i==1){v.model.recording=true;v.model.held_record=true;v.peak=24000;}
         if(i>=2 && i<=4)v.model.mode=TAPE_LIBRARY;
@@ -53,6 +54,7 @@ int main(int argc,char **argv){
         if(i==6){v.model.mode=TAPE_LIBRARY;v.model.count=0;v.duration=0;v.id=0;}
         if(i==7)strcpy(v.message,"存储不可用");
         if(i>=8){v.phone=true;v.sync=(tape_sync_view_t){.state=i==8?SYNC_RECEIVING:SYNC_DONE,.id=104,.received=i==8?73:100,.total=100};}
+        if(i==10){v.phone=true;v.sync=(tape_sync_view_t){0};v.place.state=2;strcpy(v.place.label,"人民南路");}
         tape_ui_render(&v,1000+i*1000);lv_refr_now(d);
         char path[512];snprintf(path,sizeof(path),"%s/%s.ppm",argv[1],names[i]);FILE *f=fopen(path,"wb");assert(f);fprintf(f,"P6\n240 320\n255\n");fwrite(frame,1,sizeof(frame),f);fclose(f);
     }

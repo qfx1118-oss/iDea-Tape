@@ -16,7 +16,7 @@ for file in list((root/'main').glob('tape_*.[ch]'))+[root/'main/idea_main.c']:
 symbols=''.join(sorted(chars))
 (root/'assets/fonts/tape-characters.txt').write_text(symbols+'\n')
 for size in (12,16,30):
-    subprocess.run([a.converter,'--font',a.font,'--symbols',symbols if size!=30 else '0123456789:',
+    subprocess.run([a.converter,'--font',a.font,'--symbols',(symbols+''.join(chr(i) for i in range(0x4e00,0xa000))) if size==12 else symbols if size==16 else '0123456789:',
         '--size',str(size),'--bpp','2','--format','lvgl','--no-compress',
         '--lv-font-name',f'tape_font_{size}','--lv-include','lvgl.h',
         '--output',str(root/f'assets/fonts/tape_font_{size}.c')],check=True)

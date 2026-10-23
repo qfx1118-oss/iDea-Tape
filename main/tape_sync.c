@@ -8,6 +8,8 @@ static uint32_t recording_crc;
 static uint64_t epoch_base,last_announce;
 static FILE *reader;
 static unsigned index_block,left;
+static tape_place_view_t place;static uint64_t place_at;
+tape_place_view_t tape_sync_place(void){return place;}
 static tape_sync_view_t progress;static uint64_t progress_at;
 tape_sync_view_t tape_sync_view(void){return progress;}
 static uint64_t ms(void){return (uint64_t)esp_timer_get_time()/1000;}
@@ -29,10 +31,12 @@ void tape_sync_end(bool saved){
  memset(&recording,0,sizeof(recording));
 }
 void tape_sync_tick(tape_store_t *s,bool busy){
+ if(place.state && ms()-place_at>25000)place=(tape_place_view_t){0};
  if(progress.state && ms()-progress_at>6000)progress=(tape_sync_view_t){0};
- if(!tape_ble_connected()){tape_sync_cancel_transfer();if(progress.state && progress.state!=SYNC_PAUSED && progress.state!=SYNC_DONE){progress.state=SYNC_PAUSED;progress_at=ms();}return;}
+ if(!tape_ble_connected()){place=(tape_place_view_t){0};tape_sync_cancel_transfer();if(progress.state && progress.state!=SYNC_PAUSED && progress.state!=SYNC_DONE){progress.state=SYNC_PAUSED;progress_at=ms();}return;}
  tape_packet_t p;
  while(tape_ble_receive(&p)){
+  if(p.type==TP_PLACE){tape_place_view_t next;if(tape_place_unpack(&next,p.data,p.size)){place=next;place_at=ms();}continue;}
   if(p.type==TP_TIME && p.size==8){uint64_t epoch=tape_get64(p.data);if(epoch>1700000000000ULL && epoch<4102444800000ULL)epoch_base=epoch-ms();continue;}
   if(p.type==TP_LIST){
    if(recording.id){send_meta(TP_META,&recording);continue;}

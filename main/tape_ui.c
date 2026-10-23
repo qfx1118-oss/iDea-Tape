@@ -53,7 +53,13 @@ static void draw(lv_event_t *e){
     bool library=view.model.mode!=TAPE_RECORD;
     if(library)snprintf(b,sizeof(b),"TAPE %02u / %02u",view.model.count?view.model.selected+1:0,view.model.count);
     else snprintf(b,sizeof(b),"SIDE A   /   %02u TAPES",view.model.count);
-    text(l,22,50,196,b,&tape_font_12,muted,LV_TEXT_ALIGN_LEFT);
+    if(view.phone&&view.place.state){
+        const char *place=view.place.state==2?view.place.label:view.place.state==1?"定位解析中":"地址暂不可用";
+        /* Fit at most 12 full Unicode characters; road is deliberately first. */
+        size_t end=0;unsigned count=0;while(place[end]&&count<12){end++;while((place[end]&0xc0)==0x80)end++;count++;}
+        snprintf(b,sizeof(b),"%.*s%s",(int)end,place,place[end]?"…":"");
+    }
+    text(l,22,50,162,b,&tape_font_12,muted,LV_TEXT_ALIGN_LEFT);
     if(view.phone)text(l,190,50,30,"BLE",&tape_font_12,orange,LV_TEXT_ALIGN_RIGHT);
     box(l,14,70,212,121,9,ink,0x121511,2);
     box(l,23,79,194,28,3,orange,orange,0);

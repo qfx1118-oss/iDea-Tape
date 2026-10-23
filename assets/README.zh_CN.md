@@ -55,3 +55,11 @@ BSP 在 `components/bsp/src/bsp_battery.c` 中嵌入这 80 字节，主机检查
 `fa7365671093ef449c5bdcfb4adb279e3d275f888109f50b6b2f21e9b96220d5`。
 这是电量计参数，不是充电配置，也不能通用于所有 500 mAh 电芯；详见
 [硬件指南](../docs/hardware-design/AI_HARDWARE_DEVELOPMENT_GUIDE.zh_CN.md#9-cw2017-电池计)。
+
+## iDea Tape 字体
+
+`fonts/tape_font_12.c`、`tape_font_16.c` 和 `tape_font_30.c` 为 Noto Sans CJK SC Regular 的 2-bpp 无压缩 LVGL 子集，遵循 SIL OFL 1.1，许可证见 `fonts/OFL-NotoSansCJK.txt`。来源：[Noto CJK](https://github.com/notofonts/noto-cjk)。重建方式：`tools/generate_tape_fonts.py --font <NotoSansCJKsc-Regular.otf> --converter <lv_font_conv-1.5.3>`。从源码提取的字符清单为 `fonts/tape-characters.txt`；30 像素计时字体仅包含数字及冒号。字体分别编译，由磁带渲染器明确指定。
+
+## 灵感磁带社区图片
+
+`images/idea-tape-cover.png` 和 `images/idea-tape-recording-preview.png` 为原创的 1152 × 1536 社区发布图片，使用本应用主机渲染界面及 Noto Sans CJK 字体排版。两图均在生成后目视检查，按原文件上传，已标注界面渲染示意，不含设备凭据。

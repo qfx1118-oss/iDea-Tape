@@ -59,3 +59,11 @@ Decoded 80-byte SHA-256:
 `fa7365671093ef449c5bdcfb4adb279e3d275f888109f50b6b2f21e9b96220d5`.
 This is a fuel-gauge profile, not a charging configuration or a generic profile
 for every 500 mAh cell; see the [hardware guide](../docs/hardware-design/AI_HARDWARE_DEVELOPMENT_GUIDE.md#9-cw2017-fuel-gauge).
+
+## iDea Tape fonts
+
+`fonts/tape_font_12.c`, `tape_font_16.c` and `tape_font_30.c` are 2-bpp uncompressed LVGL subsets of Noto Sans CJK SC Regular, licensed under SIL OFL 1.1 (see `fonts/OFL-NotoSansCJK.txt`). Source: [Noto CJK](https://github.com/notofonts/noto-cjk). Regenerate with `tools/generate_tape_fonts.py --font <NotoSansCJKsc-Regular.otf> --converter <lv_font_conv-1.5.3>`. The source-derived character inventory is `fonts/tape-characters.txt`; the 30 px timer subset contains digits and colon only. Fonts are compiled as separate sources and selected explicitly by the cassette renderer.
+
+## iDea Tape community images
+
+`images/idea-tape-cover.png` and `images/idea-tape-recording-preview.png` are original 1152 × 1536 community publishing images composed from this application's host-rendered interface with Noto Sans CJK typography. Both are visually inspected after rendering before publication. They are labeled interface renders and contain no device credentials.

@@ -11,8 +11,16 @@ usage() {
 run_static_checks() {
     local actionlint_bin
     local test_dir
+    local dead_strip="--gc-sections"
+    if [[ "$(uname -s)" == Darwin ]]; then dead_strip="-dead_strip"; fi
 
     python3 tools/check_repo.py
+    "${CC:-cc}" -std=c11 -Wall -Wextra -Werror -Imain \
+        tests/test_tape.c main/tape_model.c main/tape_codec.c main/tape_stream.c -lm -o /tmp/test-idea-tape
+    /tmp/test-idea-tape
+    "${CC:-cc}" -std=c11 -Wall -Wextra -Werror -Imain \
+        tests/test_tape_protocol.c main/tape_protocol.c -o /tmp/test-tape-protocol
+    /tmp/test-tape-protocol
 
     actionlint_bin="${ACTIONLINT_BIN:-}"
     if [[ -z "${actionlint_bin}" ]]; then
@@ -64,7 +72,7 @@ run_static_checks() {
     for demo in audio low_power ble wifi; do
         "${CC:-cc}" -std=c11 -Wall -Wextra -Werror \
             -ffunction-sections -fdata-sections -Itests/demo_stubs -Imain \
-            "tests/test_demo_${demo}_runtime.c" -Wl,--gc-sections \
+            "tests/test_demo_${demo}_runtime.c" -Wl,"${dead_strip}" \
             -o "${test_dir}/test_demo_${demo}_runtime"
         "${test_dir}/test_demo_${demo}_runtime"
     done

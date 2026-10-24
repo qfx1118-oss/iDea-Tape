@@ -1,25 +1,26 @@
 package cn.ideatape.recorder;
-import android.content.*;
+import android.content.Context;
 import android.graphics.*;
 import android.os.SystemClock;
 import android.view.View;
+/** Authored cassette geometry: fixed aspect, static shell, animated mechanical hubs. */
 public final class CassetteView extends View {
- private final Paint p=new Paint(3);private final ReelMotion motion=new ReelMotion();private boolean moving,recording;
- public CassetteView(Context c){super(c);setLayerType(View.LAYER_TYPE_SOFTWARE,null);setContentDescription("复古磁带，录音时红点亮起，停止时转轴惯性回弹");}
+ private final Paint p=new Paint(3);private final ReelMotion motion=new ReelMotion();private final Typeface brand;private boolean moving,recording;
+ public CassetteView(Context c){super(c);brand=c.getResources().getFont(R.font.idea_display);setContentDescription("灵感磁带，转轴停止时惯性回弹");}
  public void state(boolean move,boolean record){if(move!=moving||record!=recording){moving=move;recording=record;invalidate();}}
- private void rect(Canvas c,float x,float y,float w,float h,float r,int color){p.setColor(color);c.drawRoundRect(x,y,x+w,y+h,r,r,p);}
- protected void onMeasure(int widthSpec,int heightSpec){int width=MeasureSpec.getSize(widthSpec);setMeasuredDimension(resolveSize(width,widthSpec),resolveSize(Math.round(width*164f/240f),heightSpec));}
- protected void onDraw(Canvas canvas){super.onDraw(canvas);long now=SystemClock.elapsedRealtime();float angle=(float)motion.step(moving,now);canvas.save();float scale=Math.min(getWidth()/240f,getHeight()/164f);canvas.translate((getWidth()-240*scale)/2,(getHeight()-164*scale)/2);canvas.scale(scale,scale);
-  rect(canvas,4,7,232,147,9,0xff292a26);rect(canvas,14,18,212,29,3,0xffc26738);
-  p.setColor(0xffe5dfcd);p.setTypeface(Typeface.create("monospace",0));p.setTextSize(11);canvas.drawText("iDea / NORMAL TYPE I",24,37,p);
-  if(recording){p.setColor(0xffed342c);canvas.drawCircle(213,32,4,p);}
-  rect(canvas,20,62,200,58,25,0xff191c18);p.setColor(0xff978565);p.setStrokeWidth(2);canvas.drawLine(55,97,185,97,p);
-  rect(canvas,88,80,64,20,2,0xff555746);p.setColor(0xffbfbfa8);p.setTextSize(11);canvas.drawText("A / 90",99,94,p);
-  reel(canvas,55,92,angle);reel(canvas,185,92,angle*1.07f+17);
-  rect(canvas,75,133,90,14,3,0xff45463c);p.setColor(0xff171b16);canvas.drawCircle(88,140,3,p);canvas.drawCircle(152,140,3,p);
-  p.setColor(0xffaaa994);p.setTextSize(10);canvas.drawText("A",117,144,p);
-  for(float[] q:new float[][]{{13,16},{227,16},{13,145},{227,145}}){p.setColor(0xff77776b);canvas.drawCircle(q[0],q[1],2,p);}
-  canvas.restore();if(moving||motion.settling(now))postInvalidateOnAnimation();
+ private void rect(Canvas c,float x,float y,float w,float h,float r,int color){p.setStyle(Paint.Style.FILL);p.setColor(color);c.drawRoundRect(x,y,x+w,y+h,r,r,p);}
+ protected void onMeasure(int w,int h){int width=MeasureSpec.getSize(w);setMeasuredDimension(resolveSize(width,w),resolveSize(Math.round(width/1.586f),h));}
+ protected void onDraw(Canvas c){super.onDraw(c);long now=SystemClock.elapsedRealtime();float a=(float)motion.step(moving,now);c.save();float scale=Math.min(getWidth()/240f,getHeight()/151.3f);c.translate((getWidth()-240*scale)/2,(getHeight()-151.3f*scale)/2);c.scale(scale,scale);
+  rect(c,1,1,238,149,8,0xff181c1b);rect(c,4,4,232,143,6,0xff777367);rect(c,5,5,230,141,5,0xff252a28);rect(c,12,12,216,98,7,0xffa99e82);rect(c,13,13,214,96,6,0xff1e2422);
+
+  p.setTypeface(brand);p.setTextSize(30);p.setColor(0xffeee0c1);c.save();c.rotate(-3,120,48);c.drawText("ıDea Tape",25,51,p);p.setColor(recording?0xffe54d2d:0xffeee0c1);c.drawCircle(32.9f,32.4f,3.2f,p);p.setColor(0xffeee0c1);p.setStrokeWidth(2.2f);c.drawLine(24,57,213,57,p);c.restore();
+  p.setTypeface(Typeface.create("sans-serif",Typeface.BOLD));p.setTextSize(6);p.setColor(0xffcf6b38);c.drawText("灵感磁带",173,65,p);
+  rect(c,47,67,146,31,15,0xff080d0c);rect(c,96,72,48,21,2,0xff584936);p.setColor(0xffb3a17e);p.setStrokeWidth(.7f);for(int x=98;x<144;x+=5)c.drawLine(x,73,x,92,p);
+  reel(c,67,83,a);reel(c,173,83,a*1.07f+17);
+  rect(c,41,111,158,32,3,0xff171d1c);p.setColor(0xff454b46);p.setStrokeWidth(.6f);for(int y=116;y<142;y+=2)c.drawLine(44,y,196,y,p);
+  for(int x:new int[]{64,84,156,176}){p.setColor(0xff090e0b);c.drawCircle(x,133,x==64||x==176?5:4,p);}
+  for(float[] q:new float[][]{{9,9},{231,9},{9,142},{231,142},{120,119}}){p.setColor(0xff0d1210);c.drawCircle(q[0],q[1],3.6f,p);p.setColor(0xff9c927b);p.setStrokeWidth(.7f);c.drawLine(q[0]-1.8f,q[1],q[0]+1.8f,q[1],p);c.drawLine(q[0],q[1]-1.8f,q[0],q[1]+1.8f,p);}
+  c.restore();if(isShown()&&hasWindowFocus()&&(moving||motion.settling(now)))postInvalidateDelayed(33);
  }
- private void reel(Canvas c,float x,float y,float a){p.setColor(0xff62533c);c.drawCircle(x,y,23,p);p.setColor(0xffd9d3bd);c.drawCircle(x,y,16,p);for(int i=0;i<6;i++){double r=(a+i*60)*Math.PI/180;p.setColor(0xff4c4c40);c.drawCircle(x+(float)Math.cos(r)*11,y+(float)Math.sin(r)*11,2.5f,p);}p.setColor(0xff262822);c.drawCircle(x,y,4,p);}
+ private void reel(Canvas c,float x,float y,float a){p.setColor(0xff74634c);c.drawCircle(x,y,15,p);p.setColor(0xffcabb9a);c.drawCircle(x,y,11.8f,p);p.setColor(0xff8e7c60);c.drawCircle(x,y,8.6f,p);c.save();c.rotate(a,x,y);for(int i=0;i<6;i++){c.rotate(60,x,y);rect(c,x-1.5f,y-12,3,4,1,0xffe7d8b9);}c.restore();}
 }

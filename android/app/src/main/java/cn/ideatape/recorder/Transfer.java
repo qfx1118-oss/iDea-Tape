@@ -10,7 +10,7 @@ public final class Transfer implements Closeable {
   directory.mkdirs();state=new File(directory,key+".bits");encoded=new File(directory,key+".adpcm.part");file=new RandomAccessFile(encoded,"rw");
   if(state.isFile()){try(DataInputStream in=new DataInputStream(new FileInputStream(state))){if(in.readInt()!=0x49544231)throw new IOException();int n=in.readInt();if(n<0||n>4096)throw new IOException();byte[] b=new byte[n];in.readFully(b);blocks.or(BitSet.valueOf(b));for(int i=blocks.nextSetBit(0);i>=0;i=blocks.nextSetBit(i+1))if((long)(i+1)*256>file.length())blocks.clear(i);}catch(IOException ex){blocks.clear();}}
  }
- public void receive(int index,byte[] b)throws IOException {if(index<0||index>=32768||b.length!=256)throw new IOException("Invalid block bounds");if(blocks.get(index))return;Ima.decode(b);file.seek((long)index*256);file.write(b);blocks.set(index);if(++unsynced>=16)checkpoint();}
+ public void receive(int index,byte[] b)throws IOException {if(index<0||index>=32768||b.length!=256)throw new IOException("Invalid block bounds");if(blocks.get(index))return;Ima.decode(b);file.seek((long)index*256);file.write(b);blocks.set(index);if(++unsynced>=64)checkpoint();}
  public int missing(int count){int n=blocks.nextClearBit(0);return n<count?n:-1;}
  public boolean hasRange(int start,int count){return blocks.nextClearBit(start)>=start+count;}
  public int received(){return blocks.cardinality();}

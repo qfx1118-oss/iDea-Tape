@@ -5,7 +5,7 @@ import android.graphics.drawable.Drawable;
 
 /** One 24-unit icon family, drawn with consistent rounded strokes. */
 public final class TapeIcon extends Drawable {
- public static final String PLAY="play",STOP="stop",STAR="star",MIC="mic",LIBRARY="library",MAP="map",DELETE="delete",MORE="more",SHARE="share",BACK="back",CALENDAR="calendar",SEARCH="search",BLUETOOTH="bluetooth",DISCONNECT="disconnect",PIN="pin",PLUS="plus",MINUS="minus",FIT="fit",GLOBE="globe",EDIT="edit",CLOSE="close",CHEVRON="chevron";
+ public static final String PAUSE="pause",PLAY="play",STOP="stop",STAR="star",MIC="mic",LIBRARY="library",MAP="map",DELETE="delete",MORE="more",SHARE="share",BACK="back",CALENDAR="calendar",SEARCH="search",BLUETOOTH="bluetooth",DISCONNECT="disconnect",PIN="pin",PLUS="plus",MINUS="minus",FIT="fit",GLOBE="globe",EDIT="edit",CLOSE="close",CHEVRON="chevron";
  private final String kind;private final Paint paint=new Paint(3);private final int size;private int color;private boolean filled;
  public TapeIcon(String kind,int color,float density){this.kind=kind;this.color=color;size=(int)(24*density+.5f);}
  public TapeIcon filled(boolean value){filled=value;return this;}
@@ -15,6 +15,7 @@ public final class TapeIcon extends Drawable {
  public void draw(Canvas canvas){Rect b=getBounds();canvas.save();canvas.translate(b.left,b.top);canvas.scale(b.width()/24f,b.height()/24f);paint.setColor(color);paint.setStyle(Paint.Style.STROKE);paint.setStrokeWidth(1.65f);paint.setStrokeCap(Paint.Cap.ROUND);paint.setStrokeJoin(Paint.Join.ROUND);
   switch(kind){
    case PLAY:paint.setStyle(Paint.Style.FILL);path(canvas,9,5,19,12,9,19,9,5);break;
+   case PAUSE:paint.setStyle(Paint.Style.FILL);canvas.drawRect(7,5,10,19,paint);canvas.drawRect(14,5,17,19,paint);break;
    case STOP:paint.setStyle(Paint.Style.FILL);canvas.drawRoundRect(6,6,18,18,2,2,paint);break;
    case STAR:Path star=new Path();for(int i=0;i<10;i++){double angle=-Math.PI/2+i*Math.PI/5;float r=i%2==0?9:4.2f;float x=12+(float)Math.cos(angle)*r,y=12+(float)Math.sin(angle)*r;if(i==0)star.moveTo(x,y);else star.lineTo(x,y);}star.close();if(filled)paint.setStyle(Paint.Style.FILL);canvas.drawPath(star,paint);break;
    case MIC:canvas.drawRoundRect(9,3,15,15,3,3,paint);canvas.drawArc(6,6,18,18,0,180,false,paint);line(canvas,12,18,12,22);line(canvas,8,22,16,22);break;

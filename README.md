@@ -6,14 +6,25 @@ Catch a passing thought on a pocket cassette, then keep its sound and starting l
 
 **Retro device recorder + Android library + live Bluetooth reception + recording-location map.** This public open-source edition uses OpenStreetMap and contains no AMap service, map API key or proprietary map SDK.
 
-![Cassette interface render](assets/images/idea-tape-cover.png)
+![Cassette interface render](assets/images/idea-tape-060-cover.png)
+
+## New in 0.6.0
+
+A shared charcoal cassette and cream italic wordmark bring both screens closer to a physical tape. The i dot doubles as the recording light: red while recording, cream otherwise. Reels have moved up toward the cassette center.
+
+Android Library now opens a cassette player with pause, timeline scrubbing, ten-second skips, 1/1.25/1.5/1.75/2-times playback and hold-for-2-times acceleration that restores the selected speed on release. Reels coast/recoil when paused; map playback stays compact. Swipe-delete icons are centered and Undo shows a five-second countdown.
+
+The device turns its backlight off after 30 seconds without a key; the first gesture only wakes the screen. Recording and Bluetooth remain running. The phone reduces idle Bluetooth, location, cache-write and hidden-animation work. These are power-management changes, not a measured all-day battery or lower-temperature guarantee.
+
+![Android cassette player, emulator example](assets/images/idea-tape-060-player.png)
 
 ## Project and downloads
 
 - Complete source: https://github.com/qfx1118-oss/iDea-Tape
 - Latest firmware and APK: https://github.com/qfx1118-oss/iDea-Tape/releases/latest
-- Android: [iDea-Tape-Android-0.5.0.apk](https://github.com/qfx1118-oss/iDea-Tape/releases/download/v0.5.0/iDea-Tape-Android-0.5.0.apk)
-- Full device firmware: [iDea-Tape-AI-Passport-0.5.0.bin](https://github.com/qfx1118-oss/iDea-Tape/releases/download/v0.5.0/iDea-Tape-AI-Passport-0.5.0.bin)
+- Android: [iDea-Tape-Android-0.6.0.apk](https://github.com/qfx1118-oss/iDea-Tape/releases/download/v0.6.0/iDea-Tape-Android-0.6.0.apk)
+- Full device firmware: [iDea-Tape-AI-Passport-0.6.0.bin](https://github.com/qfx1118-oss/iDea-Tape/releases/download/v0.6.0/iDea-Tape-AI-Passport-0.6.0.bin)
+- Preserve device data: [segmented upgrade ZIP](https://github.com/qfx1118-oss/iDea-Tape/releases/download/v0.6.0/iDea-Tape-Preserving-Upgrade-0.6.0.zip)
 - Contact: **qfx1118@qq.com**
 
 The complete firmware is a clean installation and **clears device settings and recordings**. Export important recordings first. See [firmware/data guidance](docs/idea-tape.md) for compatible segmented updates that preserve data. Install the same-signed APK over the old app: uninstalling removes its private recordings.
@@ -62,12 +73,12 @@ Source is under the repository's [MIT License](LICENSE), with upstream attributi
 
 Questions and contributions are welcome. Contact **qfx1118@qq.com**.
 
-## New in 0.5.0
+## Library and road labels
 
-The Android library has date groups, clear filled favorite stars, a consistent icon family, swipe-to-reveal deletion and 8-second undo. A compact player stays available across pages. Playback, markers and filters update together after deletion. A minimal identity receipt prevents a deliberately deleted, previously saved file from reappearing through late device backfill; it contains no audio, title or location.
+The Android library has date groups, clear filled favorite stars, a consistent icon family, swipe-to-reveal deletion and 5-second countdown undo. A compact player stays available across pages. Playback, markers and filters update together after deletion. A minimal identity receipt prevents a deliberately deleted, previously saved file from reappearing through late device backfill; it contains no audio, title or location.
 
-With both 0.5.0 components installed, enable recording location, then **Place names and device display** on the phone’s recording page. After Bluetooth connection, the phone resolves a current road name using its Android system address service and sends it to the recorder. Resolution may use the network and depends on the phone provider; unavailable addresses are labeled honestly. It does not require a proprietary map key, record routes, and can save resolved street names with each recording’s position. Disable the switch to clear the display; disconnection or expired updates clears it automatically.
+With both 0.5.0 or later components installed, enable recording location, then **Place names and device display** on the phone’s recording page. After Bluetooth connection, the phone resolves a current road name using its Android system address service and sends it to the recorder. Resolution may use the network and depends on the phone provider; unavailable addresses are labeled honestly. It does not require a proprietary map key, record routes, and can save resolved street names with each recording’s position. Disable the switch to clear the display; disconnection or expired updates clears it automatically.
 
-The author confirmed all 0.4.0 tests passed. Version 0.5.0 has build, host and emulator checks; physical phone-to-recorder place display still needs acceptance testing.
+The author confirmed all 0.4.0 tests passed. The author confirmed the 0.5.0 device interface and phone-to-recorder road display. Version 0.6.0 has build/host and Android emulator checks plus verified device startup; screen-off audio/BLE continuity, wake controls and battery/thermal results remain unverified.
 
 The launcher now uses an authored retro iDea TAPE wordmark. The recording-page cassette keeps a fixed case ratio of about 1.58:1, with uniform scaling so the reels stay circular on different phones.

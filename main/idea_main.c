@@ -1,6 +1,7 @@
 /* iDea Tape: one worker owns all state/audio/files; LVGL reads snapshots only.
  * Export is a mutually exclusive, read-only storage session. */
 #include "tape_model.h"
+#include "tape_power.h"
 #include "tape_codec.h"
 #include "tape_store.h"
 #include "tape_ui.h"
@@ -31,6 +32,7 @@ static SemaphoreHandle_t view_lock;
 static tape_view_t shared;
 static atomic_bool overflow;
 static bool keys_ready;
+static atomic_bool screen_asleep;
 static uint64_t clock_ms(void){return (uint64_t)esp_timer_get_time()/1000;}
 static void on_key(bsp_btn_t k,bsp_btn_ev_t e,void *arg){
     (void)arg;
@@ -43,7 +45,7 @@ static void on_key(bsp_btn_t k,bsp_btn_ev_t e,void *arg){
     if(xQueueSend(keys,&input,0)!=pdTRUE)atomic_store(&overflow,true);
 }
 static void ui_tick(lv_timer_t *timer){
-    (void)timer;tape_view_t v;
+    if(atomic_load(&screen_asleep)){lv_timer_set_period(timer,250);return;}lv_timer_set_period(timer,33);tape_view_t v;
     if(xSemaphoreTake(view_lock,0)==pdTRUE){v=shared;xSemaphoreGive(view_lock);tape_ui_render(&v,clock_ms());}
 }
 static void publish(tape_view_t *v,const tape_store_t *s){
@@ -71,6 +73,7 @@ static void worker(void *arg){
     uint64_t battery_due=0,notice_until=storage==ESP_OK?0:UINT64_MAX;
     tape_sync_init();
     publish(&v,&store);
+    tape_power_t power={.activity=clock_ms()};
     bool phone_was=false;unsigned pairing_was=0;
     for(;;){
         unsigned old_count=store.count;
@@ -81,7 +84,7 @@ static void worker(void *arg){
         unsigned pairing=tape_ble_passkey();bool phone=tape_ble_connected();
         if(pairing!=pairing_was || phone!=phone_was || old_count!=store.count){
             pairing_was=pairing;phone_was=phone;
-            if(pairing){snprintf(v.message,sizeof(v.message),"配对码 %06u",pairing);notice_until=UINT64_MAX;}
+            if(pairing){power.activity=clock_ms();power.asleep=false;atomic_store(&screen_asleep,false);bsp_display_backlight(65);snprintf(v.message,sizeof(v.message),"配对码 %06u",pairing);notice_until=UINT64_MAX;}
             else {v.message[0]=0;notice_until=0;}
             publish(&v,&store);
         }
@@ -93,6 +96,7 @@ static void worker(void *arg){
         }
         key_tape_t input;
         while(xQueueReceive(keys,&input,0)==pdTRUE){
+            bool waking=power.asleep;bool consumed=tape_power_key(&power,input.key,input.event,clock_ms());if(waking){atomic_store(&screen_asleep,false);bsp_display_backlight(65);publish(&v,&store);}if(consumed)continue;
             tape_action_t action=tape_key(&v.model,input.key,input.event);
             if(storage==ESP_OK && !pairing){v.message[0]=0;notice_until=0;}
             if(action==TAPE_START){
@@ -168,6 +172,7 @@ static void worker(void *arg){
             }
             publish(&v,&store);
         }else vTaskDelay(pdMS_TO_TICKS(15));
+        if(tape_power_tick(&power,clock_ms(),v.model.down[0]||v.model.down[1]||v.model.down[2],pairing!=0)){atomic_store(&screen_asleep,true);bsp_display_backlight(0);}
         if(clock_ms()>=battery_due){
             v.battery=bsp_battery_soc();battery_due=clock_ms()+30000;publish(&v,&store);
         }

@@ -21,6 +21,8 @@ run_static_checks() {
     "${CC:-cc}" -std=c11 -Wall -Wextra -Werror -Imain \
         tests/test_tape_protocol.c main/tape_protocol.c -o /tmp/test-tape-protocol
     /tmp/test-tape-protocol
+    cc -Wall -Wextra -Werror -I main tests/test_tape_power.c -o /tmp/test-tape-power
+    /tmp/test-tape-power
 
     actionlint_bin="${ACTIONLINT_BIN:-}"
     if [[ -z "${actionlint_bin}" ]]; then

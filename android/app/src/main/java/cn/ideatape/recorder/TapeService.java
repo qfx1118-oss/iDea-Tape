@@ -44,7 +44,7 @@ public final class TapeService extends Service implements BleLink.Events {
    updateLocation();
    if(POSITION.equals(action)){placeGeneration++;road="";roadFix=null;lastLookup=0;lastPlaceSend=0;updatePlace();}
    if(CONNECT.equals(action)){String addr=intent.getStringExtra("address");if(addr!=null)link.connect(addr);}
-   else if(PHONE_START.equals(action)){if(phoneRecording)return;phoneRecording=true;phoneStarted=System.currentTimeMillis();phone.start(repo,snapshot(),(j,e)->io.post(()->{phoneRecording=false;phoneSession=false;if(e==null){status("手机录音已保存");libraryVersion++;}else status("录音未保存："+e.getMessage());if(stopAfterPhone||(!wantsDevice&&!locationOn)){stopForeground(true);stopSelf();}else foreground();}));status("手机正在录音…");}
+   else if(PHONE_START.equals(action)){if(phoneRecording)return;phoneRecording=true;phoneStarted=System.currentTimeMillis();phone.start(repo,snapshot(),(j,e)->io.post(()->{phoneRecording=false;phoneSession=false;if(e==null){status("手机录音已保存");libraryVersion++;}else status("录音未保存："+e.getMessage());if(stopAfterPhone||!wantsDevice){stopForeground(true);stopSelf();}else foreground();}));status("手机正在录音…");}
    else if(PHONE_STOP.equals(action)){phone.stop();status("正在保存手机录音…");}
    else if(STOP.equals(action)){stopAfterPhone=true;link.close();connected=false;tapeRecording=false;closeTransfer();if(!phoneRecording){stopForeground(true);stopSelf();}else status("已停止设备接收，手机录音继续");}
   }catch(Exception e){if(PHONE_START.equals(action)){phoneRecording=false;phoneSession=false;}status("操作失败："+e.getMessage());foreground();}});return START_NOT_STICKY;
@@ -66,7 +66,7 @@ public final class TapeService extends Service implements BleLink.Events {
   try{locations.removeUpdates(positionListener);if(!locationOn)return;
    for(String provider:new String[]{LocationManager.GPS_PROVIDER,LocationManager.NETWORK_PROVIDER}){
     if(!locations.getAllProviders().contains(provider))continue;
-    try{Location l=locations.getLastKnownLocation(provider);if(l!=null&&(latest==null||l.getElapsedRealtimeNanos()>latest.getElapsedRealtimeNanos()))latest=l;if(latest!=null){locationFixElapsed=latest.getElapsedRealtimeNanos()/1000000;locationAccuracy=latest.hasAccuracy()?latest.getAccuracy():-1;}locations.requestLocationUpdates(provider,3000,0,positionListener,io.getLooper());}catch(SecurityException ignored){}
+    try{Location l=locations.getLastKnownLocation(provider);if(l!=null&&(latest==null||l.getElapsedRealtimeNanos()>latest.getElapsedRealtimeNanos()))latest=l;if(latest!=null){locationFixElapsed=latest.getElapsedRealtimeNanos()/1000000;locationAccuracy=latest.hasAccuracy()?latest.getAccuracy():-1;}locations.requestLocationUpdates(provider,LocationManager.GPS_PROVIDER.equals(provider)?8000:30000,0,positionListener,io.getLooper());}catch(SecurityException ignored){}
    }
   }catch(Exception e){status("定位暂不可用，录音仍会保存");}
  }
@@ -88,7 +88,7 @@ public final class TapeService extends Service implements BleLink.Events {
     if(context.isFile())try{JSONObject j=new JSONObject(new String(java.nio.file.Files.readAllBytes(context.toPath()),"UTF-8"));location=j.optJSONObject("location");}catch(Exception ignored){}
     else if((m.flags&4)!=0){location=snapshot();JSONObject j=new JSONObject().put("location",location==null?JSONObject.NULL:location);Repository.atomic(context,j.toString().getBytes("UTF-8"));}
    }
-   current=m;tapeRecording=m.live();tapeSamples=(long)transfer.received()*505;
+   link.transferPriority(true);current=m;tapeRecording=m.live();tapeSamples=(long)transfer.received()*505;
    progress(false,true);
    if(m.complete()){awaiting=false;finishOrPull();}else status("设备正在录音，手机实时接收…");
   }else if(type==Wire.DATA){
@@ -97,7 +97,7 @@ public final class TapeService extends Service implements BleLink.Events {
    transfer.receive(index,Arrays.copyOfRange(b,16,272));tapeSamples=(long)transfer.received()*505;progress(false,false);
    if(current.complete()&&(!awaiting||transfer.hasRange(rangeStart,rangeCount))){awaiting=false;finishOrPull();}
   }else if(type==Wire.DELETED){status("录音已安全保存，设备缓存已清理");link.send(Wire.LIST,new byte[0]);lastList=SystemClock.elapsedRealtime();}
-  else if(type==Wire.EMPTY){closeTransfer();current=null;key="";awaiting=false;tapeRecording=false;status(phoneRecording?"手机正在录音…":"已连接，设备录音已全部接收");}
+  else if(type==Wire.EMPTY){link.transferPriority(false);closeTransfer();current=null;key="";awaiting=false;tapeRecording=false;status(phoneRecording?"手机正在录音…":"已连接，设备录音已全部接收");}
   else if(type==Wire.ERROR){awaiting=false;if("missing".equals(new String(b,"UTF-8"))){closeTransfer();current=null;key="";status("设备录音已删除，跳过未完成缓存");link.send(Wire.LIST,new byte[0]);}else status("设备忙碌，录音缓存保留，稍后继续同步");}
  }
  private long lastProgress;
@@ -113,10 +113,10 @@ public final class TapeService extends Service implements BleLink.Events {
   progress(true,true);repo.tape(key,device,current,location,transfer);libraryVersion++;Wire.Meta saved=current;
   transfer.close();transfer.remove();transfer=null;new File(repo.cache,key+".context.json").delete();current=null;key="";tapeRecording=false;
   /* A new save requires fsynced WAV + metadata; deliberate later deletion retains a matching receipt. */
-  link.send(Wire.COMMIT,saved.commit());lastRequest=SystemClock.elapsedRealtime();status("手机已保存，正在确认设备缓存清理…");
+  link.send(Wire.COMMIT,saved.commit());link.transferPriority(false);lastRequest=SystemClock.elapsedRealtime();status("手机已保存，正在确认设备缓存清理…");
  }
  private void closeTransfer(){if(transfer!=null)try{transfer.close();}catch(IOException ignored){}transfer=null;}
- private void tick(){try{long now=SystemClock.elapsedRealtime();updatePlace();if(connected){if(current!=null&&current.complete()&&now-lastRequest>4000){awaiting=false;finishOrPull();}if(now-lastList>5000&&!awaiting){link.send(Wire.LIST,new byte[0]);lastList=now;}}}catch(Exception e){status("同步暂停，缓存保留："+e.getMessage());}io.postDelayed(this::tick,1000);}
+ private void tick(){try{long now=SystemClock.elapsedRealtime();updatePlace();if(connected){if(current!=null&&current.complete()&&now-lastRequest>4000){awaiting=false;finishOrPull();}if(now-lastList>(current==null?15000:5000)&&!awaiting){link.send(Wire.LIST,new byte[0]);lastList=now;}}}catch(Exception e){status("同步暂停，缓存保留："+e.getMessage());}io.postDelayed(this::tick,1000);}
  public IBinder onBind(Intent i){return null;}
  public void onDestroy(){geocoding.shutdownNow();placeGeneration++;phoneRecording=false;phone.stop();if(io!=null)io.post(()->{link.close();closeTransfer();try{locations.removeUpdates(positionListener);}catch(Exception ignored){}worker.quitSafely();});connected=false;tapeRecording=false;super.onDestroy();}
 }

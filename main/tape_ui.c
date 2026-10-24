@@ -3,6 +3,8 @@
 #include <math.h>
 #include <stdio.h>
 #include <string.h>
+LV_FONT_DECLARE(tape_brand_24);
+LV_FONT_DECLARE(tape_brand_30);
 LV_FONT_DECLARE(tape_font_12);
 LV_FONT_DECLARE(tape_font_16);
 LV_FONT_DECLARE(tape_font_30);
@@ -36,7 +38,9 @@ static void reel(lv_layer_t *l,int cx,int cy,int tape_radius,double a){
 static void draw(lv_event_t *e){
     lv_layer_t *l=lv_event_get_layer(e);
     box(l,0,0,240,320,0,paper,paper,0);
-    text(l,20,15,156,"iDea Tape",&lv_font_montserrat_20,ink,LV_TEXT_ALIGN_LEFT);
+    box(l,17,10,142,31,5,ink,ink,0);
+    text(l,24,12,130,"ıDea Tape",&tape_brand_24,0xeee0c1,LV_TEXT_ALIGN_LEFT);
+    box(l,28,13,5,5,3,view.model.recording?0xe54d2d:0xeee0c1,0,0);
     char b[96];if(view.battery<0)snprintf(b,sizeof(b),"--%%");else snprintf(b,sizeof(b),"%d%%",view.battery);
     text(l,178,20,42,b,&tape_font_12,muted,LV_TEXT_ALIGN_RIGHT);
     line(l,20,46,220,46,0xaaa48e,1);
@@ -61,25 +65,24 @@ static void draw(lv_event_t *e){
     }
     text(l,22,50,162,b,&tape_font_12,muted,LV_TEXT_ALIGN_LEFT);
     if(view.phone)text(l,190,50,30,"BLE",&tape_font_12,orange,LV_TEXT_ALIGN_RIGHT);
-    box(l,14,70,212,121,9,ink,0x121511,2);
-    box(l,23,79,194,28,3,orange,orange,0);
-    text(l,32,85,160,"iDea  /  NORMAL TYPE I",&tape_font_12,paper,LV_TEXT_ALIGN_LEFT);
-    if(view.model.recording)box(l,199,87,9,9,6,0xee342b,0x932d25,1);
-    box(l,28,113,184,48,23,0x191c18,0x787667,1);
-    line(l,64,143,176,143,0x978565,2);
-    box(l,90,127,60,17,2,0x555746,0x797a67,1);
-    text(l,94,129,52,"A  /  90",&tape_font_12,0xbfbfa8,LV_TEXT_ALIGN_CENTER);
-    double ratio=view.duration?(double)view.samples/view.duration:0;
-    if(ratio>1)ratio=1;
-    reel(l,62,137,22-(int)(ratio*3),angle);
-    reel(l,178,137,19+(int)(ratio*3),angle*1.07+17);
-    screw(l,23,79);screw(l,217,79);screw(l,23,182);screw(l,217,182);
-    box(l,72,169,96,17,4,0x45463c,0x111510,1);
-    box(l,87,175,6,6,3,0x171b16,0x171b16,0);box(l,147,175,6,6,3,0x171b16,0x171b16,0);
-    text(l,101,170,38,"A",&tape_font_12,0xaaa994,LV_TEXT_ALIGN_CENTER);
+    box(l,14,68,212,134,8,0x202624,0x8d856f,2);
+    box(l,21,75,198,94,6,0x191f1d,0x9e9379,1);
+
+    text(l,45,84,174,"ıDea Tape",&tape_brand_30,0xeee0c1,LV_TEXT_ALIGN_LEFT);
+    box(l,50,85,7,7,4,view.model.recording?0xe54d2d:0xeee0c1,0,0);
+    line(l,33,118,205,112,0xeee0c1,2);
+    text(l,154,155,55,"SIDE A",&tape_font_12,orange,LV_TEXT_ALIGN_RIGHT);
+    box(l,42,119,156,34,17,0x0c110f,0x686250,1);
+    box(l,96,123,48,24,2,0x584936,0x7e6e50,1);
+    for(int x=100;x<144;x+=6)line(l,x,126,x,144,0x9b886b,1);
+    reel(l,64,136,16,angle);reel(l,176,136,16,angle*1.07+17);
+    box(l,54,173,132,23,3,0x161d1a,0x686250,1);
+    for(int y=176;y<194;y+=3)line(l,58,y,182,y,0x414940,1);
+    box(l,69,181,9,9,5,0x090e0b,0,0);box(l,162,181,9,9,5,0x090e0b,0,0);
+    screw(l,23,77);screw(l,217,77);screw(l,23,193);screw(l,217,193);
     unsigned seconds=(library && !view.model.playing)?view.duration/TAPE_RATE:view.samples/TAPE_RATE;
     snprintf(b,sizeof(b),"%02u:%02u",seconds/60,seconds%60);
-    text(l,20,198,200,b,&tape_font_30,ink,LV_TEXT_ALIGN_CENTER);
+    text(l,20,207,200,b,&tape_font_30,ink,LV_TEXT_ALIGN_CENTER);
     const char *status=view.model.recording?"录音中":view.model.playing?"播放中":library?(view.model.count?"已停止":"没有录音"):"录音待机";
     const char *transfer_status=view.sync.state==SYNC_DONE?"传输完成":view.sync.state==SYNC_PAUSED?"传输暂停 缓存保留":view.sync.state==SYNC_SAVING?"手机正在保存":view.sync.state==SYNC_RECEIVING?"正在传输到手机":view.sync.state==SYNC_LIVE?"录音中 边录边传":NULL;
     text(l,20,238,200,view.message[0]?view.message:transfer_status?transfer_status:status,&tape_font_16,view.model.recording?0xb6372c:ink,LV_TEXT_ALIGN_CENTER);

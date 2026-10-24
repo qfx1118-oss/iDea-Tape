@@ -67,3 +67,9 @@ for every 500 mAh cell; see the [hardware guide](../docs/hardware-design/AI_HARD
 ## iDea Tape community images
 
 `images/idea-tape-cover.png` and `images/idea-tape-recording-preview.png` are original 1152 × 1536 community publishing images composed from this application's host-rendered interface with Noto Sans CJK typography. Both are visually inspected after rendering before publication. They are labeled interface renders and contain no device credentials.
+
+## 0.6.0 display lettering
+
+Fraunces italic is sourced from https://github.com/google/fonts/tree/main/ofl/fraunces under SIL OFL (fonts/OFL-Fraunces.txt). The variable source and a static weight-900, optical-size-72, SOFT-100, WONK-1 instance are in fonts/source. Android bundles the instance in res/font/idea_display.ttf. LVGL uses uncompressed 4-bpp subsets tape_brand_24.c and tape_brand_30.c generated with lv_font_conv and --lv-include lvgl.h --no-compress. Both render a dotless i plus a separately drawn cream/red recording indicator. The launcher uses outlined lettering and authored vector cassette geometry; its static icon is cream.
+
+The 0.6.0 cover and player gallery are `images/idea-tape-060-cover.png` and `images/idea-tape-060-player.png`, portrait 1152 by 1536 compositions using the verified LVGL render and Android emulator capture, respectively. They are labeled as renders/emulator examples and were opened after final rendering before upload. Fraunces and system text fonts provide the poster lettering.

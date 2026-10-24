@@ -6,9 +6,13 @@ Catch a passing thought on a pocket cassette, then keep its sound and starting l
 
 **Retro device recorder + Android library + live Bluetooth reception + recording-location map.** This public open-source edition uses OpenStreetMap and contains no AMap service, map API key or proprietary map SDK.
 
-![Cassette interface render](assets/images/idea-tape-060-cover.png)
+![Cassette interface render](assets/images/idea-tape-061-cover.png)
 
-## New in 0.6.0
+## New in 0.6.1
+
+The header wordmark now centers within its dark plaque. A larger centered cassette wordmark replaces the Android Chinese caption, and the launcher uses large stacked iDea/Tape lettering. The recorder follows the same visual adjustment. Personal email contact details have been removed; use the project page for feedback.
+
+## Playback and screen standby
 
 A shared charcoal cassette and cream italic wordmark bring both screens closer to a physical tape. The i dot doubles as the recording light: red while recording, cream otherwise. Reels have moved up toward the cassette center.
 
@@ -16,16 +20,15 @@ Android Library now opens a cassette player with pause, timeline scrubbing, ten-
 
 The device turns its backlight off after 30 seconds without a key; the first gesture only wakes the screen. Recording and Bluetooth remain running. The phone reduces idle Bluetooth, location, cache-write and hidden-animation work. These are power-management changes, not a measured all-day battery or lower-temperature guarantee.
 
-![Android cassette player, emulator example](assets/images/idea-tape-060-player.png)
+![Android cassette player, emulator example](assets/images/idea-tape-061-player.png)
 
 ## Project and downloads
 
 - Complete source: https://github.com/qfx1118-oss/iDea-Tape
 - Latest firmware and APK: https://github.com/qfx1118-oss/iDea-Tape/releases/latest
-- Android: [iDea-Tape-Android-0.6.0.apk](https://github.com/qfx1118-oss/iDea-Tape/releases/download/v0.6.0/iDea-Tape-Android-0.6.0.apk)
-- Full device firmware: [iDea-Tape-AI-Passport-0.6.0.bin](https://github.com/qfx1118-oss/iDea-Tape/releases/download/v0.6.0/iDea-Tape-AI-Passport-0.6.0.bin)
-- Preserve device data: [segmented upgrade ZIP](https://github.com/qfx1118-oss/iDea-Tape/releases/download/v0.6.0/iDea-Tape-Preserving-Upgrade-0.6.0.zip)
-- Contact: **qfx1118@qq.com**
+- Android: [iDea-Tape-Android-0.6.1.apk](https://github.com/qfx1118-oss/iDea-Tape/releases/download/v0.6.1/iDea-Tape-Android-0.6.1.apk)
+- Full device firmware: [iDea-Tape-AI-Passport-0.6.1.bin](https://github.com/qfx1118-oss/iDea-Tape/releases/download/v0.6.1/iDea-Tape-AI-Passport-0.6.1.bin)
+- Preserve device data: [segmented upgrade ZIP](https://github.com/qfx1118-oss/iDea-Tape/releases/download/v0.6.1/iDea-Tape-Preserving-Upgrade-0.6.1.zip)
 
 The complete firmware is a clean installation and **clears device settings and recordings**. Export important recordings first. See [firmware/data guidance](docs/idea-tape.md) for compatible segmented updates that preserve data. Install the same-signed APK over the old app: uninstalling removes its private recordings.
 
@@ -71,7 +74,7 @@ Built on the public [FoloToy AI Passport](https://github.com/FoloToy/ai-passport
 
 Source is under the repository's [MIT License](LICENSE), with upstream attribution retained. Generated Chinese font subsets use [SIL OFL 1.1](assets/fonts/OFL-NotoSansCJK.txt). Map data and tile service follow OpenStreetMap's separate attribution, licensing and usage rules. No signing private key, personal recordings, map credentials or publishing authorization is included.
 
-Questions and contributions are welcome. Contact **qfx1118@qq.com**.
+Questions and contributions are welcome through the GitHub project.
 
 ## Library and road labels
 

@@ -2,7 +2,7 @@
 
 # Android companion
 
-The public 0.6.0 APK uses Android platform APIs and a native OpenStreetMap tile view, without a proprietary map SDK, map key, Google service or cloud account. Source: https://github.com/qfx1118-oss/iDea-Tape . Contact: qfx1118@qq.com .
+The public 0.6.1 APK uses Android platform APIs and a native OpenStreetMap tile view, without a proprietary map SDK, map key, Google service or cloud account. Source: https://github.com/qfx1118-oss/iDea-Tape .
 
 ## Install and pair
 
@@ -20,7 +20,7 @@ Enable location only if wanted. A position must be no more than ten seconds old 
 
 Map filters share search/favorite/date state with the library. Pan/pinch or use zoom buttons; current-area-only limits matching markers and the results list. View all resets area filtering and fits matching positions. Tap a marker, choose among overlapping recordings, and play inside the app. The results list offers a non-gesture alternative; details can still open another map application. Recordings without valid positions stay in the library.
 
-Online tiles are off until enabled explicitly. The native renderer requests only visible tiles over HTTPS from tile.openstreetmap.org, identifies the app with a stable user agent/contact, caches for at least seven days, revalidates stale tiles and visibly attributes OpenStreetMap. It has no map account or key and does not offer offline-region prefetch. Normal tile access is best effort, not a service guarantee. If tiles fail, local markers and playback remain. See [tile policy](https://operations.osmfoundation.org/policies/tiles/) and [data attribution/license](https://www.openstreetmap.org/copyright).
+Online tiles are off until enabled explicitly. The native renderer requests only visible tiles over HTTPS from tile.openstreetmap.org, identifies the app with a stable user agent/project URL, caches for at least seven days, revalidates stale tiles and visibly attributes OpenStreetMap. It has no map account or key and does not offer offline-region prefetch. Normal tile access is best effort, not a service guarantee. If tiles fail, local markers and playback remain. See [tile policy](https://operations.osmfoundation.org/policies/tiles/) and [data attribution/license](https://www.openstreetmap.org/copyright).
 
 ## Privacy and preservation
 

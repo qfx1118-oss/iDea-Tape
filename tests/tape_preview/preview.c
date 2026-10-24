@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include <string.h>
 LV_FONT_DECLARE(tape_brand_24);
-LV_FONT_DECLARE(tape_brand_30);
+LV_FONT_DECLARE(tape_brand_38);
 LV_FONT_DECLARE(tape_font_12);
 LV_FONT_DECLARE(tape_font_16);
 static unsigned char frame[240*320*3];
@@ -17,7 +17,7 @@ static void flush(lv_display_t *d,const lv_area_t *a,uint8_t *p){
     lv_display_flush_ready(d);
 }
 static void font_check(void){
-    const lv_font_t *brand[]={&tape_brand_24,&tape_brand_30};
+    const lv_font_t *brand[]={&tape_brand_24,&tape_brand_38};
     for(unsigned f=0;f<2;f++){lv_font_glyph_dsc_t d;assert(lv_font_get_glyph_dsc(brand[f],&d,0x131,0)&&!d.is_placeholder);assert(lv_font_get_glyph_dsc(brand[f],&d,'T',0)&&!d.is_placeholder);}
 
     FILE *f=fopen("assets/fonts/tape-characters.txt","r");assert(f);char buf[4096];size_t n=fread(buf,1,sizeof(buf)-1,f);fclose(f);buf[n]=0;

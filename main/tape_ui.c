@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <string.h>
 LV_FONT_DECLARE(tape_brand_24);
-LV_FONT_DECLARE(tape_brand_30);
+LV_FONT_DECLARE(tape_brand_38);
 LV_FONT_DECLARE(tape_font_12);
 LV_FONT_DECLARE(tape_font_16);
 LV_FONT_DECLARE(tape_font_30);
@@ -39,8 +39,8 @@ static void draw(lv_event_t *e){
     lv_layer_t *l=lv_event_get_layer(e);
     box(l,0,0,240,320,0,paper,paper,0);
     box(l,17,10,142,31,5,ink,ink,0);
-    text(l,24,12,130,"ıDea Tape",&tape_brand_24,0xeee0c1,LV_TEXT_ALIGN_LEFT);
-    box(l,28,13,5,5,3,view.model.recording?0xe54d2d:0xeee0c1,0,0);
+    text(l,32,12,123,"ıDea Tape",&tape_brand_24,0xeee0c1,LV_TEXT_ALIGN_LEFT);
+    box(l,36,13,5,5,3,view.model.recording?0xe54d2d:0xeee0c1,0,0);
     char b[96];if(view.battery<0)snprintf(b,sizeof(b),"--%%");else snprintf(b,sizeof(b),"%d%%",view.battery);
     text(l,178,20,42,b,&tape_font_12,muted,LV_TEXT_ALIGN_RIGHT);
     line(l,20,46,220,46,0xaaa48e,1);
@@ -68,9 +68,9 @@ static void draw(lv_event_t *e){
     box(l,14,68,212,134,8,0x202624,0x8d856f,2);
     box(l,21,75,198,94,6,0x191f1d,0x9e9379,1);
 
-    text(l,45,84,174,"ıDea Tape",&tape_brand_30,0xeee0c1,LV_TEXT_ALIGN_LEFT);
-    box(l,50,85,7,7,4,view.model.recording?0xe54d2d:0xeee0c1,0,0);
-    line(l,33,118,205,112,0xeee0c1,2);
+    text(l,29,77,184,"ıDea Tape",&tape_brand_38,0xeee0c1,LV_TEXT_ALIGN_LEFT);
+    box(l,36,79,9,9,5,view.model.recording?0xe54d2d:0xeee0c1,0,0);
+    line(l,27,118,212,112,0xeee0c1,2);
     text(l,154,155,55,"SIDE A",&tape_font_12,orange,LV_TEXT_ALIGN_RIGHT);
     box(l,42,119,156,34,17,0x0c110f,0x686250,1);
     box(l,96,123,48,24,2,0x584936,0x7e6e50,1);

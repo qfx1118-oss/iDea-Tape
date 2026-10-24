@@ -2,7 +2,7 @@
 
 # 灵感磁带设备固件
 
-公开项目：https://github.com/qfx1118-oss/iDea-Tape 。联系：qfx1118@qq.com 。
+公开项目：https://github.com/qfx1118-oss/iDea-Tape 。
 
 ## 按键
 

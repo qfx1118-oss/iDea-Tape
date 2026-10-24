@@ -6,9 +6,13 @@
 
 **设备端复古录音笔 + 安卓录音库 + 蓝牙实时接收 + 录音起点地图。** 本仓库为公开开源版：不包含高德地图服务、地图 Key 或专有地图 SDK，在线底图使用 OpenStreetMap。
 
-![磁带界面渲染示意](assets/images/idea-tape-060-cover.png)
+![磁带界面渲染示意](assets/images/idea-tape-061-cover.png)
 
-## 0.6.0 更新
+## 0.6.1 更新
+
+顶部字标在深色底块内居中，磁带字标放大并居中，安卓磁带移除中文名称；App 图标改为两行大号 iDea/Tape。设备端同步调整字标比例。本次移除个人邮箱联系方式，反馈请使用项目入口。
+
+## 播放与息屏待机
 
 两端采用炭黑磁带壳、奶油色粗斜体与橙色细节。「i」的圆点融入录音提示：录音红色，待机和播放奶白。转轴上移到接近磁带中部，保持真实比例与停止后的惯性回弹。
 
@@ -16,16 +20,15 @@
 
 设备 30 秒无按键自动息屏，录音和蓝牙继续运行；首次任意键只亮屏，再按才操作。手机减少空闲蓝牙、定位、缓存落盘和不可见动画开销。节电与降温幅度尚未测量，不承诺全天续航。
 
-![安卓磁带播放器，模拟器示例录音](assets/images/idea-tape-060-player.png)
+![安卓磁带播放器，模拟器示例录音](assets/images/idea-tape-061-player.png)
 
 ## 下载与项目
 
 - 完整项目：https://github.com/qfx1118-oss/iDea-Tape
 - 最新安装包与固件：https://github.com/qfx1118-oss/iDea-Tape/releases/latest
-- 安卓安装包：[iDea-Tape-Android-0.6.0.apk](https://github.com/qfx1118-oss/iDea-Tape/releases/download/v0.6.0/iDea-Tape-Android-0.6.0.apk)
-- 设备完整固件：[iDea-Tape-AI-Passport-0.6.0.bin](https://github.com/qfx1118-oss/iDea-Tape/releases/download/v0.6.0/iDea-Tape-AI-Passport-0.6.0.bin)
-- 保留设备数据：[分段升级包](https://github.com/qfx1118-oss/iDea-Tape/releases/download/v0.6.0/iDea-Tape-Preserving-Upgrade-0.6.0.zip)
-- 联系邮箱：**qfx1118@qq.com**
+- 安卓安装包：[iDea-Tape-Android-0.6.1.apk](https://github.com/qfx1118-oss/iDea-Tape/releases/download/v0.6.1/iDea-Tape-Android-0.6.1.apk)
+- 设备完整固件：[iDea-Tape-AI-Passport-0.6.1.bin](https://github.com/qfx1118-oss/iDea-Tape/releases/download/v0.6.1/iDea-Tape-AI-Passport-0.6.1.bin)
+- 保留设备数据：[分段升级包](https://github.com/qfx1118-oss/iDea-Tape/releases/download/v0.6.1/iDea-Tape-Preserving-Upgrade-0.6.1.zip)
 
 设备完整固件用于从零安装，**会清除原有设备设置和录音**，请先导出重要录音。已有兼容版本需要保留数据时，见[构建与数据说明](docs/idea-tape.zh_CN.md)。手机请同签名覆盖安装，不要先卸载；录音保存在 App 私有目录，卸载会删除。
 
@@ -74,7 +77,7 @@ OpenStreetMap 在线底图需要首次明确开启，不需要地图服务账号
 
 源码采用仓库 [MIT License](LICENSE)，保留上游版权声明。生成的中文字体子集采用 [SIL OFL 1.1](assets/fonts/OFL-NotoSansCJK.txt)；地图数据和图块另遵循 OpenStreetMap 的署名、许可与服务规则。签名私钥、个人录音、地图密钥及社区/GitHub 授权凭据不在仓库中。
 
-欢迎提出问题、提交改进或通过 **qfx1118@qq.com** 联系作者。
+欢迎通过 GitHub 项目提出问题与提交改进。
 
 ## 录音库与地点显示
 

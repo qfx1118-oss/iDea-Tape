@@ -2,7 +2,7 @@
 
 # iDea Tape device firmware
 
-Public project: https://github.com/qfx1118-oss/iDea-Tape . Contact: qfx1118@qq.com .
+Public project: https://github.com/qfx1118-oss/iDea-Tape .
 
 ## Controls
 

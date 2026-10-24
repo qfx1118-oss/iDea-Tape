@@ -2,7 +2,7 @@
 
 # 安卓配套 App
 
-公开开源版 0.6.0 使用安卓系统接口与原生 OpenStreetMap 图块视图，不含专有地图 SDK、地图 Key，不需要 Google 服务或云账号。源码：https://github.com/qfx1118-oss/iDea-Tape 。联系：qfx1118@qq.com 。
+公开开源版 0.6.1 使用安卓系统接口与原生 OpenStreetMap 图块视图，不含专有地图 SDK、地图 Key，不需要 Google 服务或云账号。源码：https://github.com/qfx1118-oss/iDea-Tape 。
 
 ## 安装与配对
 
@@ -20,7 +20,7 @@
 
 地图与录音库共用搜索/收藏/日期状态。拖动、双指或按钮缩放；当前区域筛选限制标记及结果列表。“查看全部”解除区域限制并缩放到匹配录音。点标记后选择同位置录音，在 App 内播放；结果列表也能选择，详情保留其他地图入口。没有有效位置的录音仍在录音库。
 
-在线底图默认关闭，明确开启后才联网。原生视图只通过 HTTPS 向 tile.openstreetmap.org 请求当前可见图块，发送稳定应用标识及联系邮箱，至少缓存七天、对过期图块重新验证，并显示 OpenStreetMap 署名。不需要地图账号或 Key，不提供离线区域预取。正常图块访问为尽力提供，不保证可用性；底图失败仍可用本机标记和回放。见[图块规则](https://operations.osmfoundation.org/policies/tiles/)与[地图署名/许可](https://www.openstreetmap.org/copyright)。
+在线底图默认关闭，明确开启后才联网。原生视图只通过 HTTPS 向 tile.openstreetmap.org 请求当前可见图块，发送稳定应用标识及项目链接，至少缓存七天、对过期图块重新验证，并显示 OpenStreetMap 署名。不需要地图账号或 Key，不提供离线区域预取。正常图块访问为尽力提供，不保证可用性；底图失败仍可用本机标记和回放。见[图块规则](https://operations.osmfoundation.org/policies/tiles/)与[地图署名/许可](https://www.openstreetmap.org/copyright)。
 
 ## 隐私与保存
 

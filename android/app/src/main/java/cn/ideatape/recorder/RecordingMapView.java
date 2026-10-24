@@ -66,7 +66,7 @@ public final class RecordingMapView extends View {
     if(file.isFile()&&System.currentTimeMillis()-file.lastModified()<7L*86400000)bitmap=BitmapFactory.decodeFile(file.getPath());
     if(bitmap==null){
      HttpURLConnection http=(HttpURLConnection)new URL("https://tile.openstreetmap.org/"+z+"/"+x+"/"+y+".png").openConnection();
-     http.setConnectTimeout(7000);http.setReadTimeout(7000);http.setRequestProperty("User-Agent","iDeaTape-Android/0.5.0 (contact: qfx1118@qq.com)");
+     http.setConnectTimeout(7000);http.setReadTimeout(7000);http.setRequestProperty("User-Agent","iDeaTape-Android/0.6.1 (+https://github.com/qfx1118-oss/iDea-Tape)");
      if(file.isFile())http.setIfModifiedSince(file.lastModified());
      try{
       int code=http.getResponseCode();

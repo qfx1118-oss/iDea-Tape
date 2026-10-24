@@ -69,3 +69,5 @@ BSP 在 `components/bsp/src/bsp_battery.c` 中嵌入这 80 字节，主机检查
 Fraunces 斜体来自 https://github.com/google/fonts/tree/main/ofl/fraunces ，遵循 SIL OFL，许可证见 fonts/OFL-Fraunces.txt。可变字体及字重 900、光学尺寸 72、SOFT-100、WONK-1 的静态实例位于 fonts/source。安卓打包实例至 res/font/idea_display.ttf；LVGL 通过 lv_font_conv 的 --lv-include lvgl.h --no-compress 生成 4-bpp 无压缩子集 tape_brand_24.c 与 tape_brand_30.c。两端绘制无点 i 并单独绘制奶白/红色录音指示圆点。启动图标采用转曲字标及原创矢量磁带，静态圆点为奶白色。
 
 0.6.0 封面与播放器配图为 `images/idea-tape-060-cover.png` 和 `images/idea-tape-060-player.png`，1152×1536 竖版排版，分别使用已检查的 LVGL 渲染与安卓模拟器截图。图片明确标注渲染或模拟器示例，最终渲染完成后已打开检查再上传；海报文字使用 Fraunces 与系统字体。
+
+0.6.1 新增同源 38 像素无压缩 Fraunces LVGL 子集 fonts/tape_brand_38.c，用于放大设备磁带字标；安卓启动图标改为按真实字形边界居中的两行大字。

@@ -13,3 +13,5 @@ The reference is the author's black cassette graphic. Preserve its cream italic 
 - Controls: consistent 24-unit icon family, minimum 48 dp hit targets, native accessible names. Destructive swipe icon is geometrically centered in its 84 dp action region. Undo visibly counts down five seconds.
 
 Validate actual Android and LVGL output, not only mockups. Device screen, BLE continuity and battery savings require physical acceptance after any relevant change.
+
+The 0.6.1 refinement centers header lettering by visible glyph bounds, enlarges the cassette wordmark to a centered 190-unit width, removes the Chinese caption from the Android cassette, and uses large two-line iDea/Tape outlines in the launcher icon. The recording dot and reel geometry/motion remain unchanged.
